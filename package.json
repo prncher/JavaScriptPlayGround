@@ -1,0 +1,32 @@
+{
+  "name": "javascriptplayground",
+  "version": "1.0.0",
+  "description": "Examples to show JavaScript features.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "debug": "node --inspect-brk index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prncher/JavaScriptPlayGround.git"
+  },
+  "keywords": [
+    "Javascript",
+    "Prototypes",
+    "Maps",
+    "Generators",
+    "Polyfills",
+    "strict"
+  ],
+  "author": {
+    "name": "Prince Cheruvatur",
+    "email": "prncher@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prncher/JavaScriptPlayGround/issues"
+  },
+  "homepage": "https://github.com/prncher/JavaScriptPlayGround#readme"
+}
