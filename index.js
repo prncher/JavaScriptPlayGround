@@ -186,30 +186,81 @@ function strstr(src, dest) {
     }
 
     var i = 0; j = 0;
-    while(i < src.length){
+    while (i < src.length) {
         var index = i;
-        while(src[i] === dest[j] && (j < dest.length))
-        {
+        while (src[i] === dest[j] && (j < dest.length)) {
             i++;
             j++;
         }
 
-        if (j === dest.length){
+        if (j === dest.length) {
             return index;
         }
 
-        i = index;
-        i++;
+        i = index + 1;
         j = 0;
     }
-
 
     return -1;
 }
 
-(function () {
+async function reverseIndividualStrings(s) {
+    return new Promise(resolve => {
+        resolve(s.split(' ').map(i => i.split('').reverse().join('')).join(' '))
+    });
+}
+
+function swap(arr, i, j) {
+    if (i !== j) {
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+
+async function quickSort(arr, start, end) {
+    if (!start) {
+        start = 0;
+    }
+
+    if (!end) {
+        end = arr.length - 1;
+    }
+
+    return new Promise(resolve => {
+        let i = start; j = end;
+        let pivot = arr[Math.ceil((start + end) / 2)];
+        // Walk through all members of array
+        while (i <= j) {
+            // Advance until any number greater than pivot from start.
+            while (arr[i] < pivot) { i++; }
+            // Advance until any number less than pivot from end.
+            while (arr[j] > pivot) { j--; }
+
+            if (i <= j) {
+                swap(arr, i, j);
+                i++;
+                j--;
+            }
+        }
+
+        if (start < j) {
+            quickSort(arr, start, j).then(a => arr = a);
+        }
+
+        if (i < end) {
+            quickSort(arr, i, end).then(a => arr = a);
+        }
+
+        resolve(arr);
+    });
+}
+
+(async function () {
     console.log('Index is : ' + strstr('I am a Postman', 'man'));
     functionCalls();
     applyStrict();
     fatArrow();
+    console.log(await reverseIndividualStrings('I Am a Postman'));
+    console.log(await quickSort([29, 23, 17, 57, 34, 89, 65, 27]));
 })();
