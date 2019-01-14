@@ -256,6 +256,67 @@ async function quickSort(arr, start, end) {
     });
 }
 
+function curry(a, b, c) {
+    return (b, c) => { return c => a + b + c };
+}
+
+async function sortAndPrintArrayOfObjs() {
+    var Node = {
+        value: ''
+    }
+
+    var sortFn = (x, y) => {
+        return x.value > y.value ? 1 : x.value === y.value ? 0 : -1;
+    }
+
+    var sortAll = (a) => {
+        return a.sort((x, y) => sortFn(x, y))
+    }
+
+    return new Promise(resolve => {
+        var nodeArray = [];
+        var ints = [3, 4, 9, 1, 0, 2, 7, 6, 5, 8];
+        for (var i of ints) {
+            nodeArray.push({ value: i });
+        }
+        var nodes = sortAll(nodeArray);
+        for (var j of nodes) {
+            console.log(j.value + ",");
+        }
+
+        resolve();
+    })
+}
+
+async function useGenerators() {
+    function* fibonacci() {
+        let i = 0; j = 1;
+        while (true) {
+            var current = i;
+            i = j;
+            j = current + i;
+
+            var reset = yield current;
+            if (reset) {
+                i = 0;
+                j = 1;
+            }
+        }
+    }
+    return new Promise(resolve => {
+        var f = fibonacci();
+        console.log('Fibonacci number follows')
+        for (var i = 0; i < 50; i++) {
+            console.log(f.next().value);
+            if (i == 25){
+                console.log("Reset the fibonacci");
+                console.log(f.next(true).value);
+            }
+        }
+        resolve();
+    })
+}
+
 (async function () {
     console.log('Index is : ' + strstr('I am a Postman', 'man'));
     functionCalls();
@@ -263,4 +324,7 @@ async function quickSort(arr, start, end) {
     fatArrow();
     console.log(await reverseIndividualStrings('I Am a Postman'));
     console.log(await quickSort([29, 23, 17, 57, 34, 89, 65, 27]));
+    console.log(curry(3)(' colors ')(' in the flag '));
+    await sortAndPrintArrayOfObjs();
+    await useGenerators();
 })();
