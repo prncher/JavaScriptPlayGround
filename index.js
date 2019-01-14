@@ -57,6 +57,13 @@ function liberalFn() {
     (14).sailing = 'home';
     'with'.you = 'far away';
     eval('var y;delete y');
+
+    // Two arguments with same name.
+    function fVar(p1, p1) {
+        console.log(p1 + p1);
+    };
+    fVar(" Test1", " Test2");
+    delete fvar;
 }
 
 function executeExpression(x) {
@@ -143,22 +150,65 @@ function applyStrict() {
     const strict = new strictFn();
 }
 
-function fatArrow(){
+// https://babeljs.io/docs/en/babel-plugin-proposal-class-properties
+// Look for the above before using fat arrow with ReactJS and Babel
+function fatArrow() {
     this.y = ' Test 1';
     var arrowFn = x => x + this.y;
+    var regFn = function (x) {
+        return x + this.y;
+    }
 
     // Uses the first value of y = ' Test 1' always.
     console.log(arrowFn('Fat Arrow - this '));
     console.log(arrowFn.call({ y: ' Test3' }, 'Fat Arrow - this '));
     console.log(arrowFn.apply({ y: ' Test3' }, ['Fat Arrow - this ']));
+    console.log(regFn.call({ y: ' Test3' }, 'Reg  - this '));
+    console.log(regFn.apply({ y: ' Test3' }, ['Reg  - this ']));
 
     this.y = ' Test 2';
     console.log(arrowFn('Fat Arrow - this '));
     console.log(arrowFn.call({ y: ' Test4' }, 'Fat Arrow - this '));
     console.log(arrowFn.apply({ y: ' Test4' }, ['Fat Arrow - this ']));
+
+    arrowFn = arrowFn.bind({ y: ' Test4' });
+    console.log(arrowFn('Fat Arrow - this '));
+    regFn = regFn.bind({ y: ' Test5' });
+    console.log(regFn('Reg  - this '));
+}
+
+function strstr(src, dest) {
+    if (!src || !dest ||
+        src.length === 0 ||
+        dest.length === 0 ||
+        src.length < dest.length) {
+        return -1;
+    }
+
+    var i = 0; j = 0;
+    while(i < src.length){
+        var index = i;
+        while(src[i] === dest[j] && (j < dest.length))
+        {
+            i++;
+            j++;
+        }
+
+        if (j === dest.length){
+            return index;
+        }
+
+        i = index;
+        i++;
+        j = 0;
+    }
+
+
+    return -1;
 }
 
 (function () {
+    console.log('Index is : ' + strstr('I am a Postman', 'man'));
     functionCalls();
     applyStrict();
     fatArrow();
